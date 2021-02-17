@@ -120,10 +120,7 @@ function App() {
       <div>Spoons: {guestList.length * 2}</div>
       <div>Forks: {guestList.length * 2}</div>
       <div>Knives: {guestList.length * 2}</div>
-      <footer>
-        <h3>Have fun!</h3>
-        <p>Don't forget to mind your Ps and Qs!</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
