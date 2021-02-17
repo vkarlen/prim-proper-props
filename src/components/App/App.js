@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
+/*-- Component Imports --*/
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+
 function App() {
   let [guestList, setGuestList] = useState([]);
   let [newGuestName, setNewGuestName] = useState('');
@@ -9,60 +13,55 @@ function App() {
 
   //On load, get guests
   useEffect(() => {
-    getGuests()
-  }, [])
+    getGuests();
+  }, []);
 
   const getGuests = () => {
-    axios.get('/guests')
-      .then(response => {
-        setGuestList(response.data)
+    axios
+      .get('/guests')
+      .then((response) => {
+        setGuestList(response.data);
       })
-      .catch(err => {
+      .catch((err) => {
         alert('error getting guests');
         console.log(err);
-      })
-  }
-
+      });
+  };
 
   const addGuest = () => {
-    axios.post('/guests', { name: newGuestName, kidsMeal: newGuestMeal })
-      .then(response => {
+    axios
+      .post('/guests', { name: newGuestName, kidsMeal: newGuestMeal })
+      .then((response) => {
         // clear inputs
         setNewGuestName('');
         setNewGuestMeal(false);
 
         getGuests();
       })
-      .catch(err => {
+      .catch((err) => {
         alert('Error Adding Guest');
         console.log(err);
-      })
+      });
   };
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (newGuestName) {
       addGuest();
-    }
-    else {
+    } else {
       alert('The new guest needs a name!');
     }
-  }
+  };
 
-  console.log(newGuestMeal)
+  console.log(newGuestMeal);
   return (
     <div className="App">
-      <header>
-        <h1>Prim Proper Props</h1>
-      </header>
+      <Header />
       <h2>Party Leader</h2>
       {guestList[0] && <h3>{guestList[0].name}</h3>}
       <h2>Add a new guest</h2>
       <form onSubmit={handleSubmit}>
-        <label>
-          Name
-        </label>
+        <label>Name</label>
         <input
           type="text"
           placeholder="Name"
@@ -71,7 +70,7 @@ function App() {
         />
         <div>
           Would this guest like a kid's meal?
-          <div >
+          <div>
             <div>
               <label>
                 <input
@@ -109,7 +108,7 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {guestList.map(guest => (
+          {guestList.map((guest) => (
             <tr key={guest.id}>
               <td>{guest.name}</td>
               <td>{String(guest.kidsMeal)}</td>
@@ -118,15 +117,9 @@ function App() {
         </tbody>
       </table>
       <h2>Dinner Supplies</h2>
-      <div>
-        Spoons: {guestList.length * 2}
-      </div>
-      <div>
-        Forks: {guestList.length * 2}
-      </div>
-      <div>
-        Knives: {guestList.length * 2}
-      </div>
+      <div>Spoons: {guestList.length * 2}</div>
+      <div>Forks: {guestList.length * 2}</div>
+      <div>Knives: {guestList.length * 2}</div>
       <footer>
         <h3>Have fun!</h3>
         <p>Don't forget to mind your Ps and Qs!</p>
